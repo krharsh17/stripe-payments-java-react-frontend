@@ -15,7 +15,7 @@ function HostedCheckout() {
                     return <CartItem data={elem} mode={'checkout'}/>
                 })}
                 <TotalFooter total={30} mode={"checkout"}/>
-                <CustomerDetails data={items} serverUrl={process.env.VITE_SERVER_BASE_URL + "/checkout/hosted"} mode={"checkout"}/>
+                <CustomerDetails data={items} endpoint={"/checkout/hosted"}/>
             </VStack>
         </Center>
     </>

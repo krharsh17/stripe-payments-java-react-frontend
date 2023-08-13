@@ -1,6 +1,6 @@
 import {Button, Center, Heading, Input, VStack} from "@chakra-ui/react";
 import {useState} from "react";
-import CartItem, {ItemData} from "../components/CartItem.tsx";
+import CartItem, {ItemData, ServerSubscriptionsResponseType} from "../components/CartItem.tsx";
 import {Subscriptions} from "../data.ts";
 
 function CancelSubscription() {
@@ -63,21 +63,14 @@ function CancelSubscription() {
                     <Button onClick={listSubscriptions} colorScheme={'green'}>List Subscriptions</Button>
                 </> : <></>)}
                 {subscriptions.map(elem => {
-                    return <CartItem data={elem} mode={'checkout'} onCancelled={() => removeSubscription(elem.stripeSubscriptionData?.subscriptionId)}/>
+                    return <CartItem data={elem} mode={'subscription'} onCancelled={() => removeSubscription(elem.stripeSubscriptionData?.subscriptionId)}/>
                 })}
             </VStack>
         </Center>
     </>
 }
 
-export interface ServerSubscriptionsResponseType {
-    appProductId : string
-    nextPaymentDate : string
-    price: string
-    subscribedOn: string
-    subscriptionId: string
-    trialEndsOn: string
-}
+
 
 
 export default CancelSubscription

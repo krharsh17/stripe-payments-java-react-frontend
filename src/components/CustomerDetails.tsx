@@ -15,14 +15,8 @@ function CustomerDetails(props: CustomerDetailsProp) {
     }
 
     const initiatePayment = () => {
-        console.log("Sending request iwth the following objectL " + JSON.stringify({
-            items: props.data.map(elem => ({name: elem.name, id: elem.id})),
-            customerName: name,
-            customerEmail: email,
-            isInvoiceNeeded: true
-        }))
 
-        fetch(props.serverUrl, {
+        fetch(process.env.VITE_SERVER_BASE_URL + props.endpoint, {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -50,8 +44,7 @@ function CustomerDetails(props: CustomerDetailsProp) {
 
 interface CustomerDetailsProp {
     data: ItemData[]
-    serverUrl: string
-    mode: "checkout" | "subscription"
+    endpoint: string
 }
 
 export default CustomerDetails

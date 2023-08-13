@@ -15,8 +15,7 @@ function NewSubscription() {
                     return <CartItem data={elem} mode={'subscription'}/>
                 })}
                 <TotalFooter total={4.99} mode={"subscription"}/>
-                <CustomerDetails data={items} serverUrl={process.env.VITE_SERVER_BASE_URL + "/subscriptions/new"}
-                                 mode={"subscription"}/>
+                <CustomerDetails data={items} endpoint={"/subscriptions/new"}/>
             </VStack>
         </Center>
     </>

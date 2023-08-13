@@ -15,8 +15,7 @@ function SubscriptionWithTrial() {
                     return <CartItem data={elem} mode={'subscription'}/>
                 })}
                 <TotalFooter total={4.99} mode={"trial"}/>
-                <CustomerDetails data={items} serverUrl={process.env.VITE_SERVER_BASE_URL + "/subscriptions/trial"}
-                                 mode={"subscription"}/>
+                <CustomerDetails data={items} endpoint={"/subscriptions/trial"}/>
             </VStack>
         </Center>
     </>

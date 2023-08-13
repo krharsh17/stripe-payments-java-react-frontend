@@ -1,11 +1,10 @@
 import {Button, Card, CardBody, CardFooter, Heading, Image, Stack, Text, useToast, VStack} from "@chakra-ui/react";
-import {ServerSubscriptionsResponseType} from "../routes/CancelSubscription.tsx";
 
 function CartItem(props: CartItemProps) {
 
+    // Add this hook call and the cancelSubscription method to cancel the selected subscription
     const toast = useToast()
     const cancelSubscription = () => {
-        console.log(props.data.stripeSubscriptionData?.subscriptionId)
 
         fetch(process.env.VITE_SERVER_BASE_URL + "/subscriptions/cancel", {
             method: "POST",
@@ -51,30 +50,31 @@ function CartItem(props: CartItemProps) {
                             {"Quantity: " + props.data.quantity}
                         </Text> : <></>)}
                     </VStack>
-
-                    <VStack spacing={'1'} alignItems={"flex-start"}>
-                        {(props.data.stripeSubscriptionData ? <Text>
-                            {"Next Payment Date: " + props.data.stripeSubscriptionData.nextPaymentDate}
-                        </Text> : <></>)}
-                        {(props.data.stripeSubscriptionData ? <Text>
-                            {"Subscribed On: " + props.data.stripeSubscriptionData.subscribedOn}
-                        </Text> : <></>)}
-                        {(props.data.stripeSubscriptionData && props.data.stripeSubscriptionData.trialEndsOn ? <Text>
-                            {"Free Trial Running Until: " + props.data.stripeSubscriptionData.trialEndsOn}
-                        </Text> : <></>)}
-                    </VStack>
+                    {(props.mode === "subscription" && props.data.stripeSubscriptionData ?
+                        <VStack spacing={'1'} alignItems={"flex-start"}>
+                            <Text>
+                                {"Next Payment Date: " + props.data.stripeSubscriptionData.nextPaymentDate}
+                            </Text>
+                            <Text>
+                                {"Subscribed On: " + props.data.stripeSubscriptionData.subscribedOn}
+                            </Text>
+                            {(props.data.stripeSubscriptionData.trialEndsOn ? <Text>
+                                {"Free Trial Running Until: " + props.data.stripeSubscriptionData.trialEndsOn}
+                            </Text> : <></>)}
+                        </VStack> : <></>)}
                 </VStack>
 
             </CardBody>
 
             <CardFooter>
                 <VStack alignItems={'flex-start'}>
-                <Text color='blue.600' fontSize='2xl'>
-                    {"$" + props.data.price}
-                </Text>
-                {(props.data.stripeSubscriptionData ?
-                    <Button colorScheme={'red'} onClick={cancelSubscription}>Cancel Subscription</Button>
-                    : <></>)}
+                    <Text color='blue.600' fontSize='2xl'>
+                        {"$" + props.data.price}
+                    </Text>
+                    {/* <----------------------- Add this block ----------------------> */}
+                    {(props.data.stripeSubscriptionData ?
+                        <Button colorScheme={'red'} onClick={cancelSubscription}>Cancel Subscription</Button>
+                        : <></>)}
                 </VStack>
             </CardFooter>
         </Stack>
@@ -95,6 +95,15 @@ interface CartItemProps {
     data: ItemData
     mode: "subscription" | "checkout"
     onCancelled?: () => void
+}
+
+export interface ServerSubscriptionsResponseType {
+    appProductId : string
+    nextPaymentDate : string
+    price: string
+    subscribedOn: string
+    subscriptionId: string
+    trialEndsOn: string
 }
 
 export default CartItem
