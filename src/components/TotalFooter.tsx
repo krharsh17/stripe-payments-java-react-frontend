@@ -9,12 +9,12 @@ function TotalFooter(props: TotalFooterProps) {
                 {"$" + props.total}
             </Text>
         </HStack>
-        {props.mode === "subscription" ?
+        {props.mode === "subscription" &&
             <Text fontSize={"xs"}>(Monthly, starting today)</Text>
-        : <></>}
-        {props.mode === "trial" ?
+            }
+        {props.mode === "trial" &&
             <Text fontSize={"xs"}>(Monthly, starting next month)</Text>
-            : <></>}
+            }
     </>
 }
 
